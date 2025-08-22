@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+@variant dark (.dark &);
+
+/* Catppuccin Latte (Light Theme) */
+:root {
+  --ctp-latte-rosewater: #dc8a78;
+  --ctp-latte-flamingo: #dd7878;
+  --ctp-latte-pink: #ea76cb;
+  --ctp-latte-mauve: #8839ef;
+  --ctp-latte-red: #d20f39;
+  --ctp-latte-maroon: #e64553;
+  --ctp-latte-peach: #fe640b;
+  --ctp-latte-yellow: #df8e1d;
+  --ctp-latte-green: #40a02b;
+  --ctp-latte-teal: #179299;
+  --ctp-latte-sky: #04a5e5;
+  --ctp-latte-sapphire: #209fb5;
+  --ctp-latte-blue: #1e66f5;
+  --ctp-latte-lavender: #7287fd;
+  --ctp-latte-text: #4c4f69;
+  --ctp-latte-subtext1: #5c5f77;
+  --ctp-latte-subtext0: #6c6f85;
+  --ctp-latte-overlay2: #7c7f93;
+  --ctp-latte-overlay1: #8c8fa1;
+  --ctp-latte-overlay0: #9ca0b0;
+  --ctp-latte-surface2: #acb0be;
+  --ctp-latte-surface1: #bcc0cc;
+  --ctp-latte-surface0: #ccd0da;
+  --ctp-latte-base: #eff1f5;
+  --ctp-latte-mantle: #e6e9ef;
+  --ctp-latte-crust: #dce0e8;
+}
+
+/* Catppuccin Mocha (Dark Theme) */
+.dark {
+  --ctp-latte-rosewater: #f5e0dc;
+  --ctp-latte-flamingo: #f2cdcd;
+  --ctp-latte-pink: #f5c2e7;
+  --ctp-latte-mauve: #cba6f7;
+  --ctp-latte-red: #f38ba8;
+  --ctp-latte-maroon: #eba0ac;
+  --ctp-latte-peach: #fab387;
+  --ctp-latte-yellow: #f9e2af;
+  --ctp-latte-green: #a6e3a1;
+  --ctp-latte-teal: #94e2d5;
+  --ctp-latte-sky: #89dceb;
+  --ctp-latte-sapphire: #74c7ec;
+  --ctp-latte-blue: #89b4fa;
+  --ctp-latte-lavender: #b4befe;
+  --ctp-latte-text: #cdd6f4;
+  --ctp-latte-subtext1: #bac2de;
+  --ctp-latte-subtext0: #a6adc8;
+  --ctp-latte-overlay2: #9399b2;
+  --ctp-latte-overlay1: #7f849c;
+  --ctp-latte-overlay0: #6c7086;
+  --ctp-latte-surface2: #585b70;
+  --ctp-latte-surface1: #45475a;
+  --ctp-latte-surface0: #313244;
+  --ctp-latte-base: #1e1e2e;
+  --ctp-latte-mantle: #181825;
+  --ctp-latte-crust: #11111b;
+}
+
+/* JSON Syntax Highlighting */
+.json-key {
+  color: var(--ctp-latte-blue);
+}
+
+.json-string {
+  color: var(--ctp-latte-green);
+}
+
+.json-number {
+  color: var(--ctp-latte-peach);
+}
+
+.json-boolean {
+  color: var(--ctp-latte-mauve);
+}
+
+.json-null {
+  color: var(--ctp-latte-overlay1);
+}
+
+.json-punctuation {
+  color: var(--ctp-latte-text);
+}
+
+/* Line numbers styling */
+#line-numbers {
+  white-space: pre;
+  line-height: 1.5;
+  user-select: none;
+  pointer-events: none;
+}
+
+#json-input {
+  line-height: 1.5;
+}
+
+/* Error message wrapping */
+#json-output.error-message {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}

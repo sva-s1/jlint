@@ -1,0 +1,529 @@
+---
+import '../styles/global.css'
+
+const SITE_NAME = import.meta.env.JLINT_SITE_NAME || 'JLint - JSON Validator & Formatter'
+const REF_URL = import.meta.env.REFERRER_URL || 'https://jlint.netlify.app'
+const REF = import.meta.env.REFERRER || 'A DataDocs Tool'
+const SITE_AUTHOR = import.meta.env.JLINT_SITE_AUTHOR || 'Your Author Name'
+const SITE_AUTHOR_URL = import.meta.env.JLINT_SITE_AUTHOR_URL || '#'
+const JSONLINT_URL = import.meta.env.JSONLINT_URL || 'https://jsonlint.com'
+const CATPPUCCIN_URL = import.meta.env.CATPPUCCIN_URL || 'https://catppuccin.com'
+const NETLIFY_URL = import.meta.env.NETLIFY_URL || 'https://netlify.com'
+
+const currentYear = new Date().getFullYear()
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>JLint - JSON Validator & Formatter</title>
+	</head>
+	<body class="min-h-screen transition-colors flex flex-col" style="background-color: var(--ctp-latte-base);">
+		<div class="container mx-auto px-4 py-4 flex-1 flex flex-col">
+			<header class="text-center mb-6 relative">
+				<!-- Logo -->
+				<div class="absolute top-0 left-0 z-10">
+					<button
+						onclick="window.location.reload()"
+						class="p-2 rounded-lg hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-opacity-50"
+						style="--tw-ring-color: var(--ctp-latte-blue);"
+						title="Reload page"
+					>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="w-8 h-8">
+							<path d="M224 256c-57.2 0-105.6-37.5-122-89.3c-1.1 1.3-2.2 2.6-3.5 3.8c-15.8 15.8-38.8 20.7-53.6 22.1c-8.1 .8-14.6-5.7-13.8-13.8c1.4-14.7 6.3-37.8 22.1-53.6c5.8-5.8 12.6-10.1 19.6-13.4c-7-3.2-13.8-7.6-19.6-13.4C37.4 82.7 32.6 59.7 31.1 44.9c-.8-8.1 5.7-14.6 13.8-13.8c14.7 1.4 37.8 6.3 53.6 22.1c4.8 4.8 8.7 10.4 11.7 16.1C131.4 28.2 174.4 0 224 0c70.7 0 128 57.3 128 128s-57.3 128-128 128zM0 482.3C0 399.5 56.4 330 132.8 309.9c6-1.6 12.2 .9 15.9 5.8l62.5 83.3c6.4 8.5 19.2 8.5 25.6 0l62.5-83.3c3.7-4.9 9.9-7.4 15.9-5.8C391.6 330 448 399.5 448 482.3c0 16.4-13.3 29.7-29.7 29.7L29.7 512C13.3 512 0 498.7 0 482.3zM160 96c-8.8 0-16 7.2-16 16s7.2 16 16 16l128 0c8.8 0 16-7.2 16-16s-7.2-16-16-16L160 96z" style="fill: var(--ctp-latte-text);" />
+						</svg>
+					</button>
+				</div>
+				<div class="absolute top-0 right-0 z-10">
+					<!-- Theme Toggle Switch -->
+					<div class="flex items-center rounded-full p-1 shadow-md border" style="background-color: var(--ctp-latte-surface0); border-color: var(--ctp-latte-overlay0);">
+						<button
+							id="theme-toggle"
+							class="relative w-12 h-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2"
+							style="background-color: var(--ctp-latte-surface1); --tw-ring-color: var(--ctp-latte-blue);"
+						>
+							<div
+								id="toggle-slider"
+								class="absolute top-0.5 w-5 h-5 rounded-full shadow-md transform transition-transform duration-200 flex items-center justify-center text-xs"
+								style="background-color: var(--ctp-latte-base);"
+							>
+								<span id="toggle-icon">🌙</span>
+							</div>
+						</button>
+					</div>
+				</div>
+				<h1 class="text-4xl font-bold mb-2" style="color: var(--ctp-latte-text);">JLint</h1>
+				<p style="color: var(--ctp-latte-subtext1);">Validate and format your JSON data</p>
+			</header>
+			
+			<div class="flex-1 flex flex-col max-w-7xl mx-auto w-full">
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1">
+					<!-- Input Section -->
+					<div class="rounded-lg shadow-lg p-4 border flex flex-col" style="background-color: var(--ctp-latte-surface0); border-color: var(--ctp-latte-overlay0);">
+						<h2 class="text-xl font-semibold mb-3" style="color: var(--ctp-latte-text);">JSON Input</h2>
+						<div class="flex-1 border rounded-lg overflow-hidden" style="border-color: var(--ctp-latte-surface1); background-color: var(--ctp-latte-base);">
+							<div class="flex h-full min-h-0">
+								<div id="line-numbers" class="bg-opacity-50 px-2 py-4 font-mono text-sm text-right border-r flex-shrink-0 select-none" style="background-color: var(--ctp-latte-surface1); border-color: var(--ctp-latte-overlay0); color: var(--ctp-latte-subtext0); min-width: 3rem;">1</div>
+								<textarea
+									id="json-input"
+									class="flex-1 p-4 font-mono text-sm resize-none focus:outline-none min-h-0 border-none bg-transparent"
+									style="color: var(--ctp-latte-text);"
+									placeholder="Paste your JSON here..."
+								></textarea>
+							</div>
+						</div>
+						<div class="mt-4 flex gap-2">
+							<button
+								id="validate-btn"
+								class="px-4 py-2 rounded-lg transition-colors font-medium hover:opacity-80"
+								style="background-color: var(--ctp-latte-green); color: var(--ctp-latte-base);"
+							>
+								Validate & Format
+							</button>
+							<button
+								id="compress-btn"
+								class="px-4 py-2 rounded-lg transition-colors font-medium hover:opacity-80"
+								style="background-color: var(--ctp-latte-mauve); color: var(--ctp-latte-base); display: none;"
+							>
+								Compress
+							</button>
+							<button
+								id="clear-btn"
+								class="px-4 py-2 rounded-lg transition-colors font-medium hover:opacity-80"
+								style="background-color: var(--ctp-latte-overlay1); color: var(--ctp-latte-base);"
+							>
+								Clear
+							</button>
+						</div>
+					</div>
+
+					<!-- Output Section -->
+					<div class="rounded-lg shadow-lg p-4 border flex flex-col" style="background-color: var(--ctp-latte-surface0); border-color: var(--ctp-latte-overlay0);">
+						<div class="flex justify-between items-center mb-3">
+							<h2 class="text-xl font-semibold" style="color: var(--ctp-latte-text);">Formatted JSON</h2>
+							<button
+								id="copy-btn"
+								class="px-3 py-1 text-sm rounded transition-colors font-medium hover:opacity-80"
+								style="background-color: var(--ctp-latte-blue); color: var(--ctp-latte-base); display: none;"
+							>
+								Copy
+							</button>
+						</div>
+						<pre
+							id="json-output"
+							class="w-full flex-1 p-4 border rounded-lg font-mono text-sm overflow-auto min-h-0"
+							style="border-color: var(--ctp-latte-surface1); background-color: var(--ctp-latte-base); color: var(--ctp-latte-text);"
+						></pre>
+					</div>
+				</div>
+
+				<!-- Status Section -->
+				<div class="mt-4 rounded-lg shadow-lg p-4 border mb-8" style="background-color: var(--ctp-latte-surface0); border-color: var(--ctp-latte-overlay0);">
+					<h3 class="text-lg font-semibold mb-2" style="color: var(--ctp-latte-text);">Status</h3>
+					<div id="status" style="color: var(--ctp-latte-subtext1);">Ready to validate JSON</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Footer -->
+		<footer class="mt-auto py-6 px-4 border-t" style="border-color: var(--ctp-latte-overlay0);">
+			<div class="container mx-auto max-w-4xl">
+				<div class="text-center space-y-2">
+					<!-- Main Credits -->
+					<p class="text-sm" style="color: var(--ctp-latte-subtext1);">
+						{SITE_NAME} — A 
+						<a href={REF_URL} target="_blank" rel="noopener noreferrer" class="font-medium hover:underline transition-colors" style="color: var(--ctp-latte-blue);">
+							{REF}
+						</a>
+						Solution
+						<span class="mx-2">•</span>
+						JLint inspired by 
+						<a href={JSONLINT_URL} target="_blank" rel="noopener noreferrer" class="hover:underline transition-colors" style="color: var(--ctp-latte-green);">
+							jsonlint.com
+						</a>
+						<span class="mx-2">•</span>
+						CSS styled after 
+						<a href={CATPPUCCIN_URL} target="_blank" rel="noopener noreferrer" class="hover:underline transition-colors" style="color: var(--ctp-latte-mauve);">
+							Catppuccin
+						</a>
+						<span class="mx-2">•</span>
+						Icons by 
+						<a href="https://fontawesome.com" target="_blank" rel="noopener noreferrer" class="hover:underline transition-colors" style="color: var(--ctp-latte-pink);">
+							Font Awesome
+						</a>
+					</p>
+					
+					<!-- Team Credits -->
+					<p class="text-sm" style="color: var(--ctp-latte-subtext1);">
+						<span>Author:</span> 
+						<a href={SITE_AUTHOR_URL} target="_blank" rel="noopener noreferrer" class="font-medium hover:underline transition-colors" style="color: var(--ctp-latte-peach);">{SITE_AUTHOR}</a>
+						<span class="mx-2">•</span>
+						<span>Coder:</span> 
+						<a href="https://claude.ai/code" target="_blank" rel="noopener noreferrer" class="font-medium hover:underline transition-colors" style="color: var(--ctp-latte-sky);">
+							Claude Code
+						</a>
+						<span class="mx-2">•</span>
+						<span>Hosted on</span> 
+						<a href={NETLIFY_URL} target="_blank" rel="noopener noreferrer" class="hover:underline transition-colors" style="color: var(--ctp-latte-teal);">
+							Netlify
+						</a>
+					</p>
+					
+					<!-- Privacy & Legal -->
+					<p class="text-xs" style="color: var(--ctp-latte-subtext0);">
+						Data entered is not retained on server • Client-side processing only
+					</p>
+					<p class="text-xs" style="color: var(--ctp-latte-subtext0);">
+						All mentioned trademarks and rights belong to their respective owners • 
+						<span>© {currentYear} {SITE_NAME}</span>
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<script>
+			type Theme = 'light' | 'dark';
+
+			interface JSONLinter {
+				input: HTMLTextAreaElement;
+				output: HTMLPreElement;
+				status: HTMLDivElement;
+				validateBtn: HTMLButtonElement;
+				compressBtn: HTMLButtonElement;
+				clearBtn: HTMLButtonElement;
+				copyBtn: HTMLButtonElement;
+				lineNumbers: HTMLDivElement;
+			}
+
+			class ThemeManager {
+				private currentTheme: Theme = 'dark';
+				private toggleBtn: HTMLButtonElement;
+				private toggleSlider: HTMLDivElement;
+				private toggleIcon: HTMLSpanElement;
+
+				constructor() {
+					this.toggleBtn = document.getElementById('theme-toggle') as HTMLButtonElement;
+					this.toggleSlider = document.getElementById('toggle-slider') as HTMLDivElement;
+					this.toggleIcon = document.getElementById('toggle-icon') as HTMLSpanElement;
+					
+					this.initializeTheme();
+					this.bindEvents();
+				}
+
+				private initializeTheme(): void {
+					// Load saved theme or default to dark
+					const savedTheme = localStorage.getItem('theme') as Theme || 'dark';
+					this.setTheme(savedTheme);
+				}
+
+				private bindEvents(): void {
+					this.toggleBtn.addEventListener('click', () => {
+						const newTheme: Theme = this.currentTheme === 'dark' ? 'light' : 'dark';
+						this.setTheme(newTheme);
+					});
+				}
+
+				private setTheme(theme: Theme): void {
+					this.currentTheme = theme;
+					localStorage.setItem('theme', theme);
+					this.applyTheme();
+					this.updateToggle();
+				}
+
+				private applyTheme(): void {
+					const html = document.documentElement;
+					html.classList.remove('dark');
+					
+					if (this.currentTheme === 'dark') {
+						html.classList.add('dark');
+					}
+				}
+
+				private updateToggle(): void {
+					if (this.currentTheme === 'dark') {
+						// Dark mode: slider on right, moon icon
+						this.toggleSlider.style.transform = 'translateX(1.5rem)'; // 24px
+						this.toggleIcon.textContent = '🌙';
+					} else {
+						// Light mode: slider on left, sun icon
+						this.toggleSlider.style.transform = 'translateX(0)';
+						this.toggleIcon.textContent = '☀️';
+					}
+				}
+			}
+
+			class JSONValidator {
+				private elements: JSONLinter;
+				private isCompressed: boolean = false;
+				private lastValidJSON: string = '';
+				private currentOutputText: string = '';
+
+				constructor() {
+					this.elements = {
+						input: document.getElementById('json-input') as HTMLTextAreaElement,
+						output: document.getElementById('json-output') as HTMLPreElement,
+						status: document.getElementById('status') as HTMLDivElement,
+						validateBtn: document.getElementById('validate-btn') as HTMLButtonElement,
+						compressBtn: document.getElementById('compress-btn') as HTMLButtonElement,
+						clearBtn: document.getElementById('clear-btn') as HTMLButtonElement,
+						copyBtn: document.getElementById('copy-btn') as HTMLButtonElement,
+						lineNumbers: document.getElementById('line-numbers') as HTMLDivElement,
+					};
+
+					this.bindEvents();
+					this.updateLineNumbers();
+				}
+
+				private bindEvents(): void {
+					this.elements.validateBtn.addEventListener('click', () => this.validateAndFormat());
+					this.elements.compressBtn.addEventListener('click', () => this.toggleCompress());
+					this.elements.clearBtn.addEventListener('click', () => this.clear());
+					this.elements.copyBtn.addEventListener('click', () => this.copyToClipboard());
+					this.elements.input.addEventListener('input', () => {
+						this.hideCopyButton();
+						this.updateLineNumbers();
+					});
+					this.elements.input.addEventListener('scroll', () => this.syncLineNumbersScroll());
+				}
+
+				private validateAndFormat(): void {
+					const input = this.elements.input.value.trim();
+					
+					if (!input) {
+						this.showStatus('Please enter some JSON to validate', 'error');
+						return;
+					}
+
+					try {
+						const parsed = JSON.parse(input);
+						const formatted = JSON.stringify(parsed, null, 2);
+						
+						this.lastValidJSON = formatted;
+						this.currentOutputText = formatted;
+						this.isCompressed = false;
+						this.elements.output.classList.remove('error-message');
+						this.elements.output.innerHTML = this.highlightJSON(formatted);
+						this.showStatus('✅ Valid JSON! Formatted successfully.', 'success');
+						this.showCopyButton();
+						this.showCompressButton();
+						this.updateCompressButtonText();
+					} catch (error) {
+						const enhancedError = this.enhanceJSONError(error, input);
+						this.elements.output.classList.add('error-message');
+						this.elements.output.textContent = `Error: ${enhancedError}`;
+						this.showStatus(`❌ Invalid JSON: ${enhancedError}`, 'error');
+						this.hideCopyButton();
+						this.hideCompressButton();
+					}
+				}
+
+				private enhanceJSONError(error: unknown, jsonString: string): string {
+					const baseMessage = error instanceof Error ? error.message : 'Unknown error';
+					
+					// Try to extract position information from the error message
+					const positionMatch = baseMessage.match(/position (\d+)/);
+					if (positionMatch) {
+						const position = parseInt(positionMatch[1]);
+						const { line, column } = this.getLineAndColumn(jsonString, position);
+						return `${baseMessage} (line ${line} column ${column})`;
+					}
+					
+					// If no position info, try to find common error patterns and provide better context
+					if (baseMessage.includes('Unexpected end of JSON input')) {
+						return 'Unexpected end of JSON input - missing closing bracket, brace, or quote';
+					}
+					
+					return baseMessage;
+				}
+
+				private getLineAndColumn(text: string, position: number): { line: number, column: number } {
+					let line = 1;
+					let column = 1;
+					
+					for (let i = 0; i < position && i < text.length; i++) {
+						if (text[i] === '\n') {
+							line++;
+							column = 1;
+						} else {
+							column++;
+						}
+					}
+					
+					return { line, column };
+				}
+
+				private toggleCompress(): void {
+					if (!this.lastValidJSON) return;
+
+					try {
+						if (this.isCompressed) {
+							// Switch to prettified
+							this.currentOutputText = this.lastValidJSON;
+							this.elements.output.classList.remove('error-message');
+							this.elements.output.innerHTML = this.highlightJSON(this.lastValidJSON);
+							this.isCompressed = false;
+							this.showStatus('✅ JSON prettified!', 'success');
+						} else {
+							// Switch to compressed
+							const parsed = JSON.parse(this.lastValidJSON);
+							const compressed = JSON.stringify(parsed);
+							this.currentOutputText = compressed;
+							this.elements.output.classList.remove('error-message');
+							this.elements.output.innerHTML = this.highlightJSON(compressed);
+							this.isCompressed = true;
+							this.showStatus('✅ JSON compressed!', 'success');
+						}
+						this.updateCompressButtonText();
+					} catch (error) {
+						this.showStatus('Error toggling compression', 'error');
+					}
+				}
+
+				private highlightJSON(json: string): string {
+					return json.replace(
+						/("(\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+						(match, p1, p2, p3, p4) => {
+							let cls = 'json-punctuation';
+							if (p4) {
+								// Boolean or null
+								cls = p4 === 'null' ? 'json-null' : 'json-boolean';
+							} else if (/^"/.test(match)) {
+								if (p3) {
+									// Key (has colon after)
+									cls = 'json-key';
+								} else {
+									// String value
+									cls = 'json-string';
+								}
+							} else {
+								// Number
+								cls = 'json-number';
+							}
+							return `<span class="${cls}">${match}</span>`;
+						}
+					);
+				}
+
+				private clear(): void {
+					this.elements.input.value = '';
+					this.elements.output.textContent = '';
+					this.elements.output.classList.remove('error-message');
+					this.showStatus('Ready to validate JSON', 'info');
+					this.hideCopyButton();
+					this.hideCompressButton();
+					this.isCompressed = false;
+					this.lastValidJSON = '';
+					this.currentOutputText = '';
+					this.updateLineNumbers();
+				}
+
+				private async copyToClipboard(): Promise<void> {
+					const textToCopy = this.currentOutputText || '';
+					
+					if (!textToCopy) {
+						this.showStatus('No content to copy', 'error');
+						return;
+					}
+
+					try {
+						// Try modern clipboard API first
+						if (navigator.clipboard && window.isSecureContext) {
+							await navigator.clipboard.writeText(textToCopy);
+							this.showStatus('📋 Copied to clipboard!', 'success');
+						} else {
+							// Fallback for older browsers or non-secure contexts
+							this.fallbackCopyToClipboard(textToCopy);
+						}
+					} catch (error) {
+						console.error('Copy failed:', error);
+						// Try fallback if modern API fails
+						this.fallbackCopyToClipboard(textToCopy);
+					}
+				}
+
+				private fallbackCopyToClipboard(text: string): void {
+					try {
+						// Create a temporary textarea element
+						const textarea = document.createElement('textarea');
+						textarea.value = text;
+						textarea.style.position = 'fixed';
+						textarea.style.left = '-999999px';
+						textarea.style.top = '-999999px';
+						document.body.appendChild(textarea);
+						textarea.focus();
+						textarea.select();
+						
+						// Try to copy using execCommand
+						const successful = document.execCommand('copy');
+						document.body.removeChild(textarea);
+						
+						if (successful) {
+							this.showStatus('📋 Copied to clipboard!', 'success');
+						} else {
+							this.showStatus('Copy failed - please copy manually', 'error');
+						}
+					} catch (error) {
+						console.error('Fallback copy failed:', error);
+						this.showStatus('Copy not supported - please copy manually', 'error');
+					}
+				}
+
+				private showStatus(message: string, type: 'success' | 'error' | 'info'): void {
+					this.elements.status.textContent = message;
+					if (type === 'success') {
+						this.elements.status.style.color = 'var(--ctp-latte-green)';
+					} else if (type === 'error') {
+						this.elements.status.style.color = 'var(--ctp-latte-red)';
+					} else {
+						this.elements.status.style.color = 'var(--ctp-latte-subtext1)';
+					}
+				}
+
+				private showCopyButton(): void {
+					this.elements.copyBtn.style.display = 'block';
+				}
+
+				private hideCopyButton(): void {
+					this.elements.copyBtn.style.display = 'none';
+				}
+
+				private showCompressButton(): void {
+					this.elements.compressBtn.style.display = 'block';
+				}
+
+				private hideCompressButton(): void {
+					this.elements.compressBtn.style.display = 'none';
+				}
+
+				private updateCompressButtonText(): void {
+					this.elements.compressBtn.textContent = this.isCompressed ? 'Prettify' : 'Compress';
+				}
+
+				private updateLineNumbers(): void {
+					const lines = this.elements.input.value.split('\n');
+					const lineCount = lines.length;
+					let lineNumbersHTML = '';
+					
+					for (let i = 1; i <= lineCount; i++) {
+						lineNumbersHTML += i + (i < lineCount ? '\n' : '');
+					}
+					
+					this.elements.lineNumbers.textContent = lineNumbersHTML;
+				}
+
+				private syncLineNumbersScroll(): void {
+					this.elements.lineNumbers.scrollTop = this.elements.input.scrollTop;
+				}
+			}
+
+			// Initialize the validator and theme manager when the page loads
+			document.addEventListener('DOMContentLoaded', () => {
+				new ThemeManager();
+				new JSONValidator();
+			});
+		</script>
+	</body>
+</html>
